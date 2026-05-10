@@ -4158,10 +4158,13 @@ class SLinux(Linux):
             "argv": argIO.getvalue(),
             "env": envIO.getvalue(),
             "stdout": out.getvalue(),
-            "stdin": inn.getvalue(),
             "stderr": err.getvalue(),
             "net": net.getvalue(),
         }
+
+        if inn.getvalue():
+            ret["stdin"] = inn.getvalue()
+
         for f in chain((e.fdlike for e in self.fd_table.entries()), self._closed_files):
             if not isinstance(f, SymbolicFile):
                 continue
